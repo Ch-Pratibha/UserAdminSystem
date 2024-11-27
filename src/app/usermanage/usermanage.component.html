@@ -1,0 +1,121 @@
+<div class="container mt-5">
+  <h2 class="text-center">User Management System</h2>
+
+  <!-- Users Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+            <span class="badge" [ngClass]="{'bg-success': user.status === 'Active', 'bg-secondary': user.status === 'Inactive'}">
+              {{ user.status }}
+            </span>
+        </td>
+        <td class="edit_delete_btn">
+          <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editUserModal" (click)="loadUserForEdit(user)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="edit-add-btn">
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+  <button class="btn btn-success" routerLink="/roles">Edit Role</button>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="addUser(); $event.preventDefault();">
+          <div class="mb-3">
+            <label for="userName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="userName" [(ngModel)]="newUser.name" name="name" placeholder="Enter user name">
+          </div>
+          <div class="mb-3">
+            <label for="userEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="userEmail" [(ngModel)]="newUser.email" name="email" placeholder="Enter user email">
+          </div>
+          <div class="mb-3">
+            <label for="userRole" class="form-label">Role</label>
+            <select class="form-select" id="userRole" [(ngModel)]="newUser.role" name="role">
+              <option value="" disabled>Select a role</option>
+              <option value="Admin">Admin</option>
+              <option value="Editor">Editor</option>
+              <option value="Viewer">Viewer</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="userStatus" class="form-label">Status</label>
+            <select class="form-select" id="userStatus" [(ngModel)]="newUser.status" name="status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Save User</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="updateUser(); $event.preventDefault();">
+          <div class="mb-3">
+            <label for="editUserName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="editUserName" [(ngModel)]="editUser.name" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="editUserEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="editUserEmail" [(ngModel)]="editUser.email" name="email">
+          </div>
+          <div class="mb-3">
+            <label for="editUserRole" class="form-label">Role</label>
+            <select class="form-select" id="editUserRole" [(ngModel)]="editUser.role" name="role">
+              <option value="Admin">Admin</option>
+              <option value="Editor">Editor</option>
+              <option value="Viewer">Viewer</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="editUserStatus" class="form-label">Status</label>
+            <select class="form-select" id="editUserStatus" [(ngModel)]="editUser.status" name="status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Update User</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
